@@ -22,6 +22,9 @@ Validate Cards display in the Shopping Page
     verify card titles in the shop page
     select the card     Blackberry
 
+Select the Formand navigate to Child Window
+    Fill the login details and login form
+
 *** Keywords ***
 
 Fill the login form
@@ -60,3 +63,15 @@ select the card
         ${index}=   Evaluate     ${index} + 1
     END
     click button    xpath:(//*[@class='card-footer'])[${index}]/button
+
+Fill the login details and login form
+
+    input text       id:username    rahulshettyacademy
+    input password   id:password    learning
+    click element    css:input[value='user']
+    wait until element is visible   okayBtn
+    click element    okayBtn
+    wait until element is not visible    css:.modal-body
+    select from list by value   css:select.form-control      teach
+    select checkbox     id:terms
+    checkbox should be selected     id:terms
