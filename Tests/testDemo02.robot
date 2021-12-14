@@ -3,7 +3,7 @@ Documentation   To validate the login form
 Library  SeleniumLibrary
 Library  Collections
 Test Setup      open the browser with the Mortgage payment url
-Test Teardown   Close browser session
+#Test Teardown   Close browser session
 Resource        resource.robot
 
 *** Variables ***
@@ -20,6 +20,7 @@ Validate Cards display in the Shopping Page
     Fill the login form     ${user_name}    ${valid_password}
     wait until element appears in the page  ${shop_page_load}
     verify card titles in the shop page
+    select the card     Blackberry
 
 *** Keywords ***
 
@@ -48,5 +49,14 @@ verify card titles in the shop page
       log   ${element.text}
       append to list  ${actualList}     ${element.text}
    END
-
    lists should be equal    ${expectedList}   ${actualList}
+
+select the card
+    [arguments]     ${cardName}
+    ${elements} =    get webelements     css:.card-title
+    ${index}=   set variable    1
+    FOR  ${element}  IN    @{elements}
+        Exit For Loop If   '${cardName}' == '${element.text}'
+        ${index}=   Evaluate     ${index} + 1
+    END
+    click button    xpath:(//*[@class='card-footer'])[${index}]/button
